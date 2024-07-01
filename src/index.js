@@ -1,13 +1,16 @@
 import "dotenv/config";
-import { writeFileSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { input } from "@inquirer/prompts";
 import Exa from "exa-js";
 import User from "./User.js";
 import searchAndGetResults from "./searchAndGetResults.js";
 import verifyUserPreferences from "./verifyUserPreferences.js";
-import { welcomeMessage, goodByeMessage, welcomeAgainMessage } from "./messages.js";
+import {
+  welcomeMessage,
+  goodByeMessage,
+  welcomeAgainMessage,
+} from "./messages.js";
 import askForApiKey from "./askForApiKey.js";
-
 
 if (!process.env.EXA_API_KEY) {
   welcomeMessage();
@@ -27,6 +30,11 @@ const results = await searchAndGetResults(queryText, exa, user.preferences);
 
 const resultsString = results.join("\n");
 const userPreferencesString = JSON.stringify(user.preferences, null, 2);
+
+if (!existsSync("results") || !existsSync("data")) {
+  mkdirSync("results");
+  mkdirSync("data");
+}
 
 writeFileSync("results/results.txt", resultsString);
 writeFileSync("data/userPreferences.json", userPreferencesString);
