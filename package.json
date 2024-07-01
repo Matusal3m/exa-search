@@ -1,7 +1,11 @@
 {
   "type": "module",
   "dependencies": {
+    "@inquirer/prompts": "^5.0.7",
     "dotenv": "^16.4.5",
     "exa-js": "^1.0.12"
+  },
+  "scripts": {
+    "dev": "node ./src/index.js",
   }
 }
